@@ -1,61 +1,57 @@
-const userData = {
-  name: 'JD',
-  age: 44,
-  phone: '777-777-7777',
-  address: '555 coding st',
-  info: {
-    location: 'Atlanta area',
-    hobbies: ['pickleball', 'fishing']
-  },
-  printAge: function () {
-    console.log(this.age);
-  },
-  haveBirthday: function () {
-    // Increase the age of the user by one
-    this.age++;
-    // Print 'Happy Birthday' to the console
-    console.log('Happy Birthday!');
-  },
-  addHobby: function (hobby) {
-    // Need to reference an argument that is passed to addHobby (string of a hobby)
+const header = document.querySelector('h1');
+const paragraph = document.querySelector('p:nth-child(2)');
+const image = document.querySelector('#main-image');
+const noteOutput = document.querySelector('.output');
+const timerDisplay = document.querySelector('#time');
+const timerBtn = document.querySelector('#start-btn');
 
-    // Push the argument(hobby) to the info.hobbies array
-    this.info.hobbies.push(hobby)
-  },
-  printHobbies: function () {
-    // console.log the hobbies array
-    console.log(this.info.hobbies);
 
-    // BONUS - Loop over the hobbies array and console.log each hobby
-    // for (let i = 0; i < this.info.hobbies.length; i++) {
-    //   console.log(this.info.hobbies[i]);
-    // }
+header.classList.add('crazy');
 
-    for (let hobby of this.info.hobbies) {
-      console.log(hobby);
-    }
+
+header.style.textDecoration = 'underline';
+
+// image.setAttribute('src', 'https://images.pexels.com/photos/16112572/pexels-photo-16112572/free-photo-of-view-of-sun-shining-between-the-trees-in-a-park.jpeg');
+
+// Insert a new article element into the output section
+noteOutput.insertAdjacentHTML('beforeend', `
+  <article>
+    <h3>New note text</h3>
+    <p>Added On: 9/20/2024</p>
+  </article>
+`);
+
+// noteOutput.innerHTML = `
+//   <article>
+//     <h3>New note text</h3>
+//     <p>Added On: 9/20/2024</p>
+//   </article>
+// `;
+
+// Timers
+// setTimeout(function () {
+//   console.log('time up!');
+// }, 10000);
+let count = 10;
+let started = false;
+
+
+timerBtn.addEventListener('click', function () {
+  if (!started) {
+    const timer = setInterval(function () {
+      count--;
+
+      timerDisplay.innerText = 'Time: ' + count;
+
+      if (count <= 0) {
+        clearInterval(timer);
+
+        timerDisplay.innerText = 'Time: 10';
+        count = 10;
+        started = false;
+      }
+    }, 1000);
+
+    started = true;
   }
-};
-
-userData.addHobby('tennis');
-userData.addHobby('coding');
-userData.addHobby('golf');
-userData.addHobby('bingo');
-
-userData.printHobbies();
-
-
-
-// test('tennis', 10);
-// test('tennis', 10);
-
-
-
-// function test(hobby, age) {
-//   console.log(hobby);
-// }
-
-// test('tennis', 10);
-// test('tennis', 10);
-// test('tennis', 10);
-
+});
