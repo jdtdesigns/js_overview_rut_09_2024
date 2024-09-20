@@ -1,30 +1,61 @@
-const notes = ['JS is cool', 'create a constant with const', 'use the src attribute on the script tag to load a js file'];
+const userData = {
+  name: 'JD',
+  age: 44,
+  phone: '777-777-7777',
+  address: '555 coding st',
+  info: {
+    location: 'Atlanta area',
+    hobbies: ['pickleball', 'fishing']
+  },
+  printAge: function () {
+    console.log(this.age);
+  },
+  haveBirthday: function () {
+    // Increase the age of the user by one
+    this.age++;
+    // Print 'Happy Birthday' to the console
+    console.log('Happy Birthday!');
+  },
+  addHobby: function (hobby) {
+    // Need to reference an argument that is passed to addHobby (string of a hobby)
 
-console.log(notes);
+    // Push the argument(hobby) to the info.hobbies array
+    this.info.hobbies.push(hobby)
+  },
+  printHobbies: function () {
+    // console.log the hobbies array
+    console.log(this.info.hobbies);
 
-// Adds an item to the end of the array
-notes.push('Copilot is a great help!');
+    // BONUS - Loop over the hobbies array and console.log each hobby
+    // for (let i = 0; i < this.info.hobbies.length; i++) {
+    //   console.log(this.info.hobbies[i]);
+    // }
 
-console.log(notes);
+    for (let hobby of this.info.hobbies) {
+      console.log(hobby);
+    }
+  }
+};
 
-// Adds an item to the beginning of the array
-notes.unshift('CSS is crazy');
+userData.addHobby('tennis');
+userData.addHobby('coding');
+userData.addHobby('golf');
+userData.addHobby('bingo');
 
-console.log(notes);
+userData.printHobbies();
 
-// Pop removes the last item from the array
-notes.pop();
 
-console.log(notes);
 
-// Shift removes the first item from the array
-notes.shift();
+// test('tennis', 10);
+// test('tennis', 10);
 
-console.log(notes);
 
-const notes2 = notes;
-// To remove an item at a certain index, we use splice
-// You pass in the index of where you want to start deleting items and then the amount of items you want to remove
-notes2.splice(1, 2);
 
-console.log(notes2);
+// function test(hobby, age) {
+//   console.log(hobby);
+// }
+
+// test('tennis', 10);
+// test('tennis', 10);
+// test('tennis', 10);
+
