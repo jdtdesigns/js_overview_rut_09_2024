@@ -8,7 +8,7 @@ const addBtn = document.querySelector('#add-btn');
 function toggleDarkMode() {
   const mode = localStorage.getItem('mode');
 
-  if (mode === 'light') {
+  if (!mode || mode === 'light') {
     document.body.classList.add('dark');
     localStorage.setItem('mode', 'dark');
   } else {
