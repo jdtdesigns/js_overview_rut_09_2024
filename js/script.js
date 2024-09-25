@@ -1,87 +1,71 @@
-const noteOutput = document.querySelector('.output');
-const addNoteBtn = document.querySelector('#add-btn');
-const randomNoteBtn = document.querySelector('#random-btn');
-const noteModal = document.querySelector('#note-modal');
-const noteModalTitleEl = document.querySelector('.modal-title');
-const noteModalTextContentEl = document.querySelector('.modal-text-content');
-const noteModalDateEl = document.querySelector('.modal-date');
-const notes = [];
+const darkModeBtn = document.querySelector('#toggle-btn');
+const addBtn = document.querySelector('#add-btn');
 
-function outputNotes(notesArray) {
+// function toggleDarkMode() {
+//   document.body.classList.toggle('dark');
+// }
 
-  noteOutput.innerHTML = '';
+function toggleDarkMode() {
+  const mode = localStorage.getItem('mode');
 
-  for (const noteObject of notesArray) {
-    noteOutput.insertAdjacentHTML('beforeend', `
-    <article class="border border-light-subtle p-2 rounded-2 text-black-50 mb-3">
-      <h3>${noteObject.title}</h3>
-      <p>${noteObject.textContent}</p>
-      <p>Added On: ${noteObject.date}</p>
-    </article>
-  `);
+  if (mode === 'light') {
+    document.body.classList.add('dark');
+    localStorage.setItem('mode', 'dark');
+  } else {
+    document.body.classList.remove('dark');
+    localStorage.setItem('mode', 'light');
   }
 
 }
 
-function gatherNotes() {
-  let title;
-  let textContent;
-  const date = new Date();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const dateOutput = month + '/' + day + '/' + year;
+function addStudent() {
+  const nameInput = document.querySelector('#name-input');
+  const studentName = nameInput.value;
 
-  let keepAsking = true;
+  const rawOldStudentArray = localStorage.getItem('students');
+  const studentArray = JSON.parse(rawOldStudentArray) || [];
 
-  while (keepAsking) {
-    title = prompt('Please provide the title');
-    textContent = prompt('Please provide the text content of your note');
+  studentArray.push(studentName);
 
-    // If the title or textContent are not provided, ask them again for these two values
-    if (title && textContent) {
-      keepAsking = false;
-    } else {
-      alert('You must enter both the title and text content');
-    }
+  localStorage.setItem('students', JSON.stringify(studentArray));
+
+  nameInput.value = '';
+  outputStudents();
+}
+
+function outputStudents() {
+  const rawOldStudentArray = localStorage.getItem('students');
+  const studentArray = JSON.parse(rawOldStudentArray) || [];
+  const studentOutput = document.querySelector('#student-output');
+
+  studentOutput.innerHTML = '';
+
+  if (!studentArray.length) {
+    studentOutput.innerHTML = '<li>No students have been added</li>';
   }
 
-  const noteObject = {
-    title: title,
-    textContent: textContent,
-    date: dateOutput
-  };
-
-  notes.push(noteObject);
-
-  return notes;
+  for (const student of studentArray) {
+    studentOutput.insertAdjacentHTML('beforeend', `
+      <li>${student}</li>  
+    `);
+  }
 }
 
-function outputRandomNote() {
-  const ranNum = Math.random();
-  const index = Math.floor(ranNum * notes.length);
-  const note = notes[index];
+function pageLoad() {
+  const mode = localStorage.getItem('mode');
 
-  noteModalTitleEl.innerText = note.title;
-  noteModalTextContentEl.innerText = note.textContent;
-  noteModalDateEl.innerText = note.date;
+  if (mode === 'dark') {
+    document.body.classList.add('dark');
+  }
 
-  $('#note-modal').modal('show');
+  darkModeBtn.addEventListener('click', toggleDarkMode);
+  addBtn.addEventListener('click', addStudent);
+
+  outputStudents();
 }
 
-addNoteBtn.addEventListener('click', function () {
-  const notesArray = gatherNotes();
-
-  outputNotes(notesArray);
-});
-
-randomNoteBtn.addEventListener('click', outputRandomNote);
+pageLoad();
 
 
-
-
-
-
-
-
+// localStorage
 
